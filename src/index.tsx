@@ -4,10 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-ReactDOM.hydrate(
-  <App />,
-  document.getElementById('root') as HTMLElement,
-);
+ReactDOM.hydrate(<App />, document.getElementById('root') as HTMLElement);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
