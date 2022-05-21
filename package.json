@@ -2,8 +2,10 @@
   "name": "label-a",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
   "dependencies": {
+    "@babel/preset-env": "^7.18.0",
+    "@babel/preset-react": "^7.17.12",
+    "@babel/register": "^7.17.7",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -12,6 +14,7 @@
     "@types/react": "^18.0.0",
     "@types/react-dom": "^18.0.0",
     "express": "^4.18.1",
+    "ignore-styles": "^5.0.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
@@ -20,7 +23,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "ssr": "node ./server/app.js",
+    "ssr": "node ./server/index.ts",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

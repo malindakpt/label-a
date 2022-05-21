@@ -2,9 +2,10 @@ import express from 'express';
 import fs from 'fs';
 import path from 'path';
 
-import react from 'react';
+import React from 'react';
 import ReactDOMServer from 'react-dom/server';
-import App from '../src/App';
+// @ts-ignore TODO: find the reason why do we have to include .tsx here.
+import App from '../src/App.tsx';
 
 const app = express();
 const port = 3500;
@@ -15,7 +16,7 @@ app.use('^/$', (req, res, next) => {
              console.log('Err:', err);
              return res.status(500).send('Error occured');
          }
-         res.send(data.replace('<div id="root"></div>', `<div id="root">${ReactDOMServer.renderToString(<App></App>)}</div>`));
+         res.send(data.replace('<div id="root"></div>', `<div id="root">${ReactDOMServer.renderToString(<App />)}</div>`));
      })
 });
 
