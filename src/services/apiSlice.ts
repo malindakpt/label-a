@@ -9,7 +9,7 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'https://ws.audioscrobbler.com/' }),
   endpoints: (builder) => ({
     searchArtists: builder.query({
-      query: () => getURL('artist.search', 'artist=cher'),
+      query: (name: string) => getURL('artist.search', `artist=${name}`),
     }),
     getSongs: builder.query({
       query: () =>
