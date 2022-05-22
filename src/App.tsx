@@ -1,17 +1,16 @@
+import { TopBar } from './components/presentational/TopBar/TopBar';
+import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
+import { apiSlice } from './services/apiSlice';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ArtistSearch } from './components/presentational/AristSearch/ArtistSearch';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit 123 qwe<code>src/App.tsx</code> and save to reload.
-        </p>
-      </header>
-    </div>
+    <ApiProvider api={apiSlice}>
+      <TopBar />
+      <ArtistSearch />
+    </ApiProvider>
   );
-}
+};
 
 export default App;
