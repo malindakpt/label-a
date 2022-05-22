@@ -1,17 +1,24 @@
+// import { useEffect } from 'react';
+// import { Provider } from 'react-redux';
+import { TopBar } from './components/presentational/TopBar/TopBar';
+// import { useGetSongsQuery } from './services/apiSlice';
+// import { store } from './redux/store';
+// import { useGetPokemonByNameQuery } from './services/pokemon';
+import { ApiProvider } from '@reduxjs/toolkit/dist/query/react';
+import { apiSlice } from './services/apiSlice';
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+const App = () => {
+  // const { data, isLoading } = useGetSongsQuery('malinda', {});
+  // useEffect(() => {
+  //   console.log('useEffect');
+  // }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit 123 qwe<code>src/App.tsx</code> and save to reload.
-        </p>
-      </header>
-    </div>
+    <ApiProvider api={apiSlice}>
+      <TopBar />
+    </ApiProvider>
   );
-}
+};
 
 export default App;
