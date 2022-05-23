@@ -1,13 +1,45 @@
+/* eslint-disable no-unused-vars */
 import { useSearchArtistsQuery } from '../../../services/apiSlice';
 import { TextField } from '@mui/material';
 import { useState } from 'react';
+import { FetchArgs } from '@reduxjs/toolkit/query/react';
+import useInfiniteScroll from 'react-infinite-scroll-hook';
 
 export const ArtistSearch = () => {
-  const [name, setName] = useState('');
-  const { data, refetch } = useSearchArtistsQuery(name);
-  console.log(data);
+  const [name, setName] = useState('as');
+  const [param, setParam] = useState<FetchArgs>({
+    url: '',
+    params: { name, page: 1, limit: 50 },
+  });
+  // TODO: decide the hasNext page dynamically
+  const hasNextPage = true;
 
-  const arr = data?.results?.artistmatches?.artist;
+  const { data, refetch, isLoading, isFetching } = useSearchArtistsQuery(param);
+
+  const loadMore = (): void => {
+    setParam((prev) => {
+      const next = { ...prev };
+      next.params = { ...prev.params };
+      if (next.params) {
+        next.params.page = next.params.page + 1;
+      }
+      console.log('load more ', next.params?.page);
+      return next;
+    });
+  };
+
+  const [sentryRef] = useInfiniteScroll({
+    loading: isFetching,
+    hasNextPage,
+    onLoadMore: loadMore,
+    // When there is an error, we stop infinite loading.
+    // It can be reactivated by setting "error" state as undefined.
+    disabled: false,
+    // `rootMargin` is passed to `IntersectionObserver`.
+    // We can use it to trigger 'onLoadMore' when the sentry comes near to become
+    // visible, instead of becoming fully visible on the screen.
+    rootMargin: '0px 0px 400px 0px',
+  });
 
   const handleChange = (e: any) => {
     console.log('v=', e.target.value);
@@ -15,6 +47,7 @@ export const ArtistSearch = () => {
     setName(name);
     refetch();
   };
+
   return (
     <div>
       <TextField
@@ -23,11 +56,17 @@ export const ArtistSearch = () => {
         variant="filled"
         onChange={handleChange}
       />
+      <h2 style={{ position: 'fixed' }}>Length: {data?.length}</h2>
       <div>
-        {arr?.map((ele: any) => (
-          <div key={ele.mbid}>{ele.name}</div>
+        {data?.map((ele: any) => (
+          <div key={ele.url}>{ele.name}</div>
         ))}
       </div>
+      {(isFetching || hasNextPage) && (
+        <div ref={sentryRef}>
+          <h1>Loading Screen</h1>
+        </div>
+      )}
     </div>
   );
 };
