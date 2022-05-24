@@ -6,7 +6,6 @@ import { withScroll } from '../../hoc/withScroll';
 export interface Props {
   data: any[];
   onQueryParamChange: (params: any) => void;
-  refetch: () => {};
 }
 const ArtistAlbums: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
   const { mbid } = useParams();

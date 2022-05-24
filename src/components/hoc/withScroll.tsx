@@ -9,14 +9,15 @@ export interface DataApiArgs extends FetchArgs {
 }
 
 export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
-  let hasNext = false;
   const ScrollableComponent = () => {
+    let hasNext = false;
+    const [ready, setReady] = useState(false);
     const [baseQueryParams, setBaseQueryParams] = useState<DataApiArgs>({
       url: '',
       params: { page: 1, limit: 50 },
     });
 
-    const { data, refetch, isFetching } = useData(baseQueryParams);
+    const { data, isFetching } = useData(ready ? baseQueryParams : undefined);
 
     const loadMore = (): void => {
       setBaseQueryParams((prev) => {
@@ -35,6 +36,7 @@ export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
         next.params = { ...prev.params, ...qParam, prevData: [] };
         return next;
       });
+      setReady(true);
     };
 
     const [sentryRef] = useInfiniteScroll({
@@ -50,30 +52,25 @@ export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
       rootMargin: '0px 0px 400px 0px',
     });
 
-    if (data) {
-      hasNext = hasNextPage(
-        baseQueryParams.params.page,
-        baseQueryParams.params.limit,
-        data.totalSize
-      );
+    hasNext = hasNextPage(
+      baseQueryParams.params.page,
+      baseQueryParams.params.limit,
+      data?.totalSize ?? 0
+    );
 
-      return (
-        <>
-          <Wrapped
-            data={data.arr}
-            refetch={refetch}
-            onQueryParamChange={handleQueryParamChange}
-          ></Wrapped>
-          {(isFetching || hasNext) && (
-            <div ref={sentryRef}>
-              <div>Loading Screen</div>
-            </div>
-          )}
-        </>
-      );
-    } else {
-      return <div>wait....</div>;
-    }
+    return (
+      <>
+        <Wrapped
+          data={data?.arr}
+          onQueryParamChange={handleQueryParamChange}
+        ></Wrapped>
+        {(isFetching || hasNext) && (
+          <div ref={sentryRef}>
+            <div>Loading Screen</div>
+          </div>
+        )}
+      </>
+    );
   };
   return ScrollableComponent;
 };
