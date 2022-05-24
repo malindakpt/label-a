@@ -21,7 +21,7 @@ export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
     const loadMore = (): void => {
       setBaseQueryParams((prev) => {
         const next = { ...prev };
-        next.params = { ...prev.params, isMorePage: true };
+        next.params = { ...prev.params, prevData: data.arr };
         if (next.params) {
           next.params.page = next.params.page + 1;
         }
@@ -32,7 +32,7 @@ export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
     const handleQueryParamChange = (qParam: any) => {
       setBaseQueryParams((prev) => {
         const next = { ...prev };
-        next.params = { ...prev.params, ...qParam, isMorePage: false };
+        next.params = { ...prev.params, ...qParam, prevData: [] };
         return next;
       });
     };

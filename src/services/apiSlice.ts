@@ -1,8 +1,6 @@
 import { createApi, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { getURL } from './apiSliceUtil';
 
-let allData: any = [];
-
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: 'https://ws.audioscrobbler.com/' }),
@@ -11,20 +9,10 @@ export const apiSlice = createApi({
       query: (args: FetchArgs) => getURL('artist.search', `artist=${args.params?.name}&page=${args.params?.page}&limit=${args.params?.limit}`),
       transformResponse: (response: { results: any }, meta, arg) => {
         const newData = response?.results?.artistmatches?.artist ?? [];
-        if (arg.params?.isMorePage) {
-          allData = [...allData, ...newData];
-          return {
-            arr: allData,
-            totalSize: response?.results['opensearch:totalResults'] ?? 0
-          };
-        } else {
-          allData = [];
-          allData = [...allData, ...newData];
-          return {
-            arr: allData,
-            totalSize: response?.results['opensearch:totalResults'] ?? 0
-          };
-        }
+        return {
+          arr: [...(arg.params?.prevData ?? []), ...newData],
+          totalSize: response?.results['opensearch:totalResults'] ?? 0
+        };
       },
       async onQueryStarted (
         arg,
@@ -60,8 +48,8 @@ export const apiSlice = createApi({
       query: (args: FetchArgs) => getURL('artist.gettopalbums', `mbid=${args.params?.mbid}&page=${args.params?.page}&limit=${args.params?.limit}`),
       transformResponse: (response: { topalbums: any }, meta, arg) => {
         const newData = response?.topalbums?.album ?? [];
-        allData = [...allData, ...newData];
-        return allData;
+        // allData = [...allData, ...newData];
+        return newData;
       },
     }),
     getSongs: builder.query({
