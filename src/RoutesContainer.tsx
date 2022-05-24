@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Artist } from './components/container/Artist/ArtistView';
-import { ArtistSearch } from './components/presentational/ArtistSearch/ArtistSearch';
+import ArtistSearch from './components/presentational/ArtistSearch/ArtistSearch';
 
 export const RoutesContainer = () => {
   return (
