@@ -14,42 +14,16 @@ export const apiSlice = createApi({
           totalSize: response?.results['opensearch:totalResults'] ?? 0
         };
       },
-      async onQueryStarted (
-        arg,
-        {
-          dispatch,
-          getState,
-          extra,
-          requestId,
-          queryFulfilled,
-          getCacheEntry,
-          updateCachedData,
-        }
-      ) {
-        console.log('onQueryStarted');
-      },
-      async onCacheEntryAdded (
-        arg,
-        {
-          dispatch,
-          getState,
-          extra,
-          requestId,
-          cacheEntryRemoved,
-          cacheDataLoaded,
-          getCacheEntry,
-          updateCachedData,
-        }
-      ) {
-        console.log('onCacheEntryAdded');
-      },
     }),
     topAlbums: builder.query({
       query: (args: FetchArgs) => getURL('artist.gettopalbums', `mbid=${args.params?.mbid}&page=${args.params?.page}&limit=${args.params?.limit}`),
       transformResponse: (response: { topalbums: any }, meta, arg) => {
         const newData = response?.topalbums?.album ?? [];
-        // allData = [...allData, ...newData];
-        return newData;
+        const topAlbums = response?.topalbums;
+        return {
+          arr: [...(arg.params?.prevData ?? []), ...newData],
+          totalSize: topAlbums ? topAlbums['@attr'].total : 0
+        };
       },
     }),
     getSongs: builder.query({

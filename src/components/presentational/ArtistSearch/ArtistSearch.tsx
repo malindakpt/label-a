@@ -35,7 +35,11 @@ const ArtistSearch: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
       <div>
         {data?.map((ele: any) => (
           <div key={ele.url}>
-            <Link to={`/artist/${ele.mbid}`}>{ele.name}</Link>
+            {ele.mbid ? (
+              <Link to={`/artistAlbums/${ele.mbid}`}>{ele.name}</Link>
+            ) : (
+              <></>
+            )}
           </div>
         ))}
       </div>

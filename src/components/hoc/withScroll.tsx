@@ -66,13 +66,13 @@ export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
           ></Wrapped>
           {(isFetching || hasNext) && (
             <div ref={sentryRef}>
-              <h1>Loading Screen</h1>
+              <div>Loading Screen</div>
             </div>
           )}
         </>
       );
     } else {
-      return <div>Loading screen</div>;
+      return <div>wait....</div>;
     }
   };
   return ScrollableComponent;

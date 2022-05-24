@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Artist } from './components/container/Artist/ArtistView';
+import ArtistAlbums from './components/presentational/ArtistAlbums/ArtistAlbums';
 import ArtistSearch from './components/presentational/ArtistSearch/ArtistSearch';
 
 export const RoutesContainer = () => {
@@ -23,7 +23,7 @@ export const RoutesContainer = () => {
         {/* A <Switch> looks through its children <Route>s and
           renders the first one that matches the current URL. */}
         <Routes>
-          <Route path="artist/:mbid" element={<Artist />} />
+          <Route path="artistAlbums/:mbid" element={<ArtistAlbums />} />
           <Route path="/" element={<ArtistSearch />} />
         </Routes>
       </div>
