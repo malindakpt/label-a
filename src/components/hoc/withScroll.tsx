@@ -2,20 +2,18 @@ import React, { useState } from 'react';
 import { FetchArgs } from '@reduxjs/toolkit/query/react';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { Props } from '../presentational/ArtistSearch/ArtistSearch';
-import { hasNextPage } from './util';
+import { hasNextPage } from './withScrollUtil';
 
 export interface DataApiArgs extends FetchArgs {
-  // params: Record<keyof T, any>;
   params: any;
 }
 
 export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
   let hasNext = false;
   const ScrollableComponent = () => {
-    const [queryParams, setQueryParams] = useState({});
     const [baseQueryParams, setBaseQueryParams] = useState<DataApiArgs>({
       url: '',
-      params: { page: 1, limit: 50, ...queryParams },
+      params: { page: 1, limit: 50 },
     });
 
     const { data, refetch, isFetching } = useData(baseQueryParams);
@@ -23,17 +21,20 @@ export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
     const loadMore = (): void => {
       setBaseQueryParams((prev) => {
         const next = { ...prev };
-        next.params = { ...prev.params };
+        next.params = { ...prev.params, isMorePage: true };
         if (next.params) {
           next.params.page = next.params.page + 1;
         }
-        console.log('load more ', next.params?.page);
         return next;
       });
     };
 
-    const handleQueryParamChange = (params: any) => {
-      setQueryParams(params);
+    const handleQueryParamChange = (qParam: any) => {
+      setBaseQueryParams((prev) => {
+        const next = { ...prev };
+        next.params = { ...prev.params, ...qParam, isMorePage: false };
+        return next;
+      });
     };
 
     const [sentryRef] = useInfiniteScroll({

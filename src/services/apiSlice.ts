@@ -1,8 +1,5 @@
 import { createApi, FetchArgs, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
-const getURL = (method: string, params: string) => {
-  return `2.0?method=${method}&api_key=d732731be2f5f0ec4b10e5a3607d7090&${params}&format=json`;
-}
+import { getURL } from './apiSliceUtil';
 
 let allData: any = [];
 
@@ -14,11 +11,20 @@ export const apiSlice = createApi({
       query: (args: FetchArgs) => getURL('artist.search', `artist=${args.params?.name}&page=${args.params?.page}&limit=${args.params?.limit}`),
       transformResponse: (response: { results: any }, meta, arg) => {
         const newData = response?.results?.artistmatches?.artist ?? [];
-        allData = [...allData, ...newData];
-        return {
-          arr: allData,
-          totalSize: response?.results['opensearch:totalResults'] ?? 0
-        };
+        if (arg.params?.isMorePage) {
+          allData = [...allData, ...newData];
+          return {
+            arr: allData,
+            totalSize: response?.results['opensearch:totalResults'] ?? 0
+          };
+        } else {
+          allData = [];
+          allData = [...allData, ...newData];
+          return {
+            arr: allData,
+            totalSize: response?.results['opensearch:totalResults'] ?? 0
+          };
+        }
       },
       async onQueryStarted (
         arg,

@@ -2,7 +2,6 @@
 import { useSearchArtistsQuery } from '../../../services/apiSlice';
 import { TextField } from '@mui/material';
 import React, { useState } from 'react';
-import { FetchArgs } from '@reduxjs/toolkit/query/react';
 import { Link } from 'react-router-dom';
 import { withScroll } from '../../hoc/withScroll';
 
@@ -13,6 +12,8 @@ export interface Props {
 }
 const ArtistSearch: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
   const [name, setName] = useState('as');
+
+  console.log(data);
 
   const handleChange = (e: any) => {
     console.log('v=', e.target.value);
