@@ -4,6 +4,7 @@ import { TextField } from '@mui/material';
 import { useState } from 'react';
 import { FetchArgs } from '@reduxjs/toolkit/query/react';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
+import { Link } from 'react-router-dom';
 
 export const ArtistSearch = () => {
   const [name, setName] = useState('as');
@@ -59,7 +60,9 @@ export const ArtistSearch = () => {
       <h2 style={{ position: 'fixed' }}>Length: {data?.length}</h2>
       <div>
         {data?.map((ele: any) => (
-          <div key={ele.url}>{ele.name}</div>
+          <div key={ele.url}>
+            <Link to={`/artist/${ele.mbid}`}>{ele.name}</Link>
+          </div>
         ))}
       </div>
       {(isFetching || hasNextPage) && (

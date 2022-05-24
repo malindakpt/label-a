@@ -47,6 +47,14 @@ export const apiSlice = createApi({
         console.log('onCacheEntryAdded');
       },
     }),
+    topAlbums: builder.query({
+      query: (args: FetchArgs) => getURL('artist.gettopalbums', `mbid=${args.params?.mbid}&page=${args.params?.page}&limit=${args.params?.limit}`),
+      transformResponse: (response: { topalbums: any }, meta, arg) => {
+        const newData = response?.topalbums?.album ?? [];
+        allData = [...allData, ...newData];
+        return allData;
+      },
+    }),
     getSongs: builder.query({
       query: () =>
         '2.0?method=library.getartists&api_key=d732731be2f5f0ec4b10e5a3607d7090&user=malinda&format=json',
@@ -54,4 +62,4 @@ export const apiSlice = createApi({
   }),
 });
 
-export const { useGetSongsQuery, useSearchArtistsQuery } = apiSlice;
+export const { useGetSongsQuery, useSearchArtistsQuery, useTopAlbumsQuery } = apiSlice;
