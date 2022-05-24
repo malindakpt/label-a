@@ -15,7 +15,10 @@ export const apiSlice = createApi({
       transformResponse: (response: { results: any }, meta, arg) => {
         const newData = response?.results?.artistmatches?.artist ?? [];
         allData = [...allData, ...newData];
-        return allData;
+        return {
+          arr: allData,
+          totalSize: response?.results['opensearch:totalResults'] ?? 0
+        };
       },
       async onQueryStarted (
         arg,

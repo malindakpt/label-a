@@ -8,25 +8,18 @@ import { withScroll } from '../../hoc/withScroll';
 
 export interface Props {
   data: any[];
-  // params: FetchArgs;
+  onQueryParamChange: (params: any) => void;
   refetch: () => {};
 }
-const ArtistSearch: React.FC<Props> = ({ data, refetch }: Props) => {
+const ArtistSearch: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
   const [name, setName] = useState('as');
-  // const [param, setParam] = useState<FetchArgs>({
-  //   url: '',
-  //   params: { name, page: 1, limit: 50 },
-  // });
-  // TODO: decide the hasNext page dynamically
-  // const hasNextPage = true;
-
-  // const { data, refetch, isLoading, isFetching } = useSearchArtistsQuery(param);
 
   const handleChange = (e: any) => {
     console.log('v=', e.target.value);
     const name = e.target.value;
     setName(name);
-    refetch();
+    // refetch();
+    onQueryParamChange({ name });
   };
 
   return (

@@ -2,19 +2,26 @@ import React, { useState } from 'react';
 import { FetchArgs } from '@reduxjs/toolkit/query/react';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { Props } from '../presentational/ArtistSearch/ArtistSearch';
+import { hasNextPage } from './util';
+
+export interface DataApiArgs extends FetchArgs {
+  // params: Record<keyof T, any>;
+  params: any;
+}
 
 export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
+  let hasNext = false;
   const ScrollableComponent = () => {
-    const [hasNextPage] = useState(false); // TODO: set hasNextPage
-    const [params, setParams] = useState<FetchArgs>({
+    const [queryParams, setQueryParams] = useState({});
+    const [baseQueryParams, setBaseQueryParams] = useState<DataApiArgs>({
       url: '',
-      params: { name: 'as', page: 1, limit: 50 },
+      params: { page: 1, limit: 50, ...queryParams },
     });
 
-    const { data, refetch, isFetching } = useData(params);
+    const { data, refetch, isFetching } = useData(baseQueryParams);
 
     const loadMore = (): void => {
-      setParams((prev) => {
+      setBaseQueryParams((prev) => {
         const next = { ...prev };
         next.params = { ...prev.params };
         if (next.params) {
@@ -25,9 +32,13 @@ export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
       });
     };
 
+    const handleQueryParamChange = (params: any) => {
+      setQueryParams(params);
+    };
+
     const [sentryRef] = useInfiniteScroll({
       loading: isFetching,
-      hasNextPage,
+      hasNextPage: hasNext,
       onLoadMore: loadMore,
       // When there is an error, we stop infinite loading.
       // It can be reactivated by setting "error" state as undefined.
@@ -38,16 +49,30 @@ export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
       rootMargin: '0px 0px 400px 0px',
     });
 
-    return (
-      <>
-        <Wrapped data={data} refetch={refetch}></Wrapped>
-        {(isFetching || hasNextPage) && (
-          <div ref={sentryRef}>
-            <h1>Loading Screen</h1>
-          </div>
-        )}
-      </>
-    );
+    if (data) {
+      hasNext = hasNextPage(
+        baseQueryParams.params.page,
+        baseQueryParams.params.limit,
+        data.totalSize
+      );
+
+      return (
+        <>
+          <Wrapped
+            data={data.arr}
+            refetch={refetch}
+            onQueryParamChange={handleQueryParamChange}
+          ></Wrapped>
+          {(isFetching || hasNext) && (
+            <div ref={sentryRef}>
+              <h1>Loading Screen</h1>
+            </div>
+          )}
+        </>
+      );
+    } else {
+      return <div>Loading screen</div>;
+    }
   };
   return ScrollableComponent;
 };
