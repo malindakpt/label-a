@@ -42,11 +42,25 @@ export const apiSlice = createApi({
         }
       },
     }),
-    getSongs: builder.query({
-      query: () =>
-        '2.0?method=library.getartists&api_key=d732731be2f5f0ec4b10e5a3607d7090&user=malinda&format=json',
+    albumDetails: builder.query({
+      query: (args: FetchArgs) => getURL('album.getinfo', `artist=${args?.params?.artist}&album=${args?.params?.album}`),
+      transformResponse: (response: { album: any }, meta, arg) => {
+        if (arg) {
+          const newData = response?.album?.tracks?.track ?? [];
+
+          return {
+            arr: [...(arg?.params?.prevData ?? []), ...newData],
+            totalSize: 0
+          };
+        } else {
+          return {
+            arr: [],
+            totalSize: 0
+          };
+        }
+      },
     }),
   }),
 });
 
-export const { useGetSongsQuery, useSearchArtistsQuery, useTopAlbumsQuery } = apiSlice;
+export const { useSearchArtistsQuery, useTopAlbumsQuery, useAlbumDetailsQuery } = apiSlice;

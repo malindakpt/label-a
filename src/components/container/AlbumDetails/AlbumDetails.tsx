@@ -1,39 +1,36 @@
-import { useTopAlbumsQuery } from '../../../services/apiSlice';
+import { useAlbumDetailsQuery } from '../../../services/apiSlice';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { withScroll } from '../../hoc/withScroll/withScroll';
 import { ArtistCard } from '../../presentational/ArtistCard/ArtistCard';
 import { FluidGrid } from '../../styled/FluidGrid';
-import { CustomLink } from '../../styled/CustomLink';
 
 export interface Props {
   data: any[];
   onQueryParamChange: (params: any) => void;
 }
-const ArtistAlbums: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
-  const { mbid } = useParams();
+const AlbumDetails: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
+  const { artist, album } = useParams();
 
   useEffect(() => {
-    onQueryParamChange({ mbid });
+    onQueryParamChange({ artist, album });
   }, []);
 
   return (
     <FluidGrid>
       {data?.map((ele: any) => (
-        <CustomLink
-          key={ele.url}
-          to={`/albumInfo/${ele.artist.name}/${ele.name}`}
-        >
+        <div key={ele.url}>
           <ArtistCard
             title={ele.name}
-            image={ele.image[2]['#text']}
+            // TODO: read the image index in a better way
+            image={''}
             url={ele.url}
-            description={`listeners: ${ele.listeners}`}
+            description={''}
           />
-        </CustomLink>
+        </div>
       ))}
     </FluidGrid>
   );
 };
 
-export default withScroll(ArtistAlbums, useTopAlbumsQuery);
+export default withScroll(AlbumDetails, useAlbumDetailsQuery);

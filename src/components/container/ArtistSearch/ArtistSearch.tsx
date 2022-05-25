@@ -1,11 +1,11 @@
 import { useSearchArtistsQuery } from '../../../services/apiSlice';
 import { TextField } from '@mui/material';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { withScroll } from '../../hoc/withScroll/withScroll';
 import { ArtistCard } from '../../presentational/ArtistCard/ArtistCard';
 import { FluidGrid } from '../../styled/FluidGrid';
 import { RightAligned } from '../../styled/RightAligned';
+import { CustomLink } from '../../styled/CustomLink';
 
 export interface Props {
   data: any[];
@@ -35,17 +35,14 @@ const ArtistSearch: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
       <FluidGrid>
         {data?.map((ele: any) => (
           <div key={ele.url}>
-            <Link
-              to={`/artistAlbums/${ele.mbid}`}
-              style={{ textDecoration: 'none' }}
-            >
+            <CustomLink to={`/artistAlbums/${ele.mbid}`}>
               <ArtistCard
                 title={ele.name}
                 image={ele.image[2]['#text']}
                 url={ele.url}
                 description={`listeners: ${ele.listeners}`}
               />
-            </Link>
+            </CustomLink>
           </div>
         ))}
       </FluidGrid>
