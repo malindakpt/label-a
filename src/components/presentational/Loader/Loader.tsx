@@ -1,17 +1,13 @@
 import CircularProgress from '@mui/material/CircularProgress';
 import Box from '@mui/material/Box';
-import styled from 'styled-components';
+import classes from './Loader.module.scss';
 
 export const Loader = () => {
-  const CenteredContent = styled.div`
-    display: grid;
-    place-items: center;
-  `;
   return (
-    <CenteredContent>
+    <div className={classes.container}>
       <Box sx={{ display: 'grid', gridTemplateColumns: '1fr' }}>
         <CircularProgress />
       </Box>
-    </CenteredContent>
+    </div>
   );
 };
