@@ -14,7 +14,11 @@ export interface Props {
 const Container = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr;
+  @media screen and (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
 `;
+
 const ArtistSearch: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
   const handleChange = (e: any) => {
     const name = e.target.value;

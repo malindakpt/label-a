@@ -9,7 +9,7 @@ export const Loader = () => {
   `;
   return (
     <CenteredContent>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: '1fr' }}>
         <CircularProgress />
       </Box>
     </CenteredContent>
