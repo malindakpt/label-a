@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { FetchArgs } from '@reduxjs/toolkit/query/react';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
-import { Props } from '../../container/ArtistSearch/ArtistSearch';
 import { hasNextPage } from './withScrollUtil';
 import { Loader } from '../../presentational/Loader/Loader';
 
@@ -9,7 +8,7 @@ export interface DataApiArgs extends FetchArgs {
   params: any;
 }
 
-export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
+export const withScroll = (Wrapped: React.FC<any>, useData: any) => {
   const ScrollableComponent = () => {
     let hasNext = false;
     const [ready, setReady] = useState(false);
