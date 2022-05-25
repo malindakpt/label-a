@@ -35,7 +35,10 @@ const ArtistSearch: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
       <FluidGrid>
         {data?.map((ele: any) => (
           <div key={ele.url}>
-            <Link to={`/artistAlbums/${ele.mbid}`}>
+            <Link
+              to={`/artistAlbums/${ele.mbid}`}
+              style={{ textDecoration: 'none' }}
+            >
               <ArtistCard
                 title={ele.name}
                 image={ele.image[2]['#text']}
