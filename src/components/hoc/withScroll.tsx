@@ -39,6 +39,12 @@ export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
       setReady(true);
     };
 
+    hasNext = hasNextPage(
+      baseQueryParams.params.page,
+      baseQueryParams.params.limit,
+      data?.totalSize ?? 0
+    );
+
     const [sentryRef] = useInfiniteScroll({
       loading: isFetching,
       hasNextPage: hasNext,
@@ -52,12 +58,6 @@ export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
       rootMargin: '0px 0px 400px 0px',
     });
 
-    hasNext = hasNextPage(
-      baseQueryParams.params.page,
-      baseQueryParams.params.limit,
-      data?.totalSize ?? 0
-    );
-
     return (
       <>
         <Wrapped
@@ -66,7 +66,7 @@ export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
         ></Wrapped>
         {(isFetching || hasNext) && (
           <div ref={sentryRef}>
-            <div>Loading Screen</div>
+            <h1>Loading Screen</h1>
           </div>
         )}
       </>
