@@ -1,8 +1,8 @@
 import { useTopAlbumsQuery } from '../../../services/apiSlice';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { withScroll } from '../../hoc/withScroll';
-import { ArtistCard } from '../ArtistCard/ArtistCard';
+import { withScroll } from '../../hoc/withScroll/withScroll';
+import { ArtistCard } from '../../presentational/ArtistCard/ArtistCard';
 import { FluidGrid } from '../../styled/FluidGrid';
 
 export interface Props {

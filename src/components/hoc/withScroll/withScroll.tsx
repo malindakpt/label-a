@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { FetchArgs } from '@reduxjs/toolkit/query/react';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
-import { Props } from '../presentational/ArtistSearch/ArtistSearch';
+import { Props } from '../../container/ArtistSearch/ArtistSearch';
 import { hasNextPage } from './withScrollUtil';
-import { Loader } from '../presentational/Loader/Loader';
+import { Loader } from '../../presentational/Loader/Loader';
 
 export interface DataApiArgs extends FetchArgs {
   params: any;

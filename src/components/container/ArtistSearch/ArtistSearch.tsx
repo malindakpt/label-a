@@ -2,8 +2,8 @@ import { useSearchArtistsQuery } from '../../../services/apiSlice';
 import { TextField } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { withScroll } from '../../hoc/withScroll';
-import { ArtistCard } from '../ArtistCard/ArtistCard';
+import { withScroll } from '../../hoc/withScroll/withScroll';
+import { ArtistCard } from '../../presentational/ArtistCard/ArtistCard';
 import { FluidGrid } from '../../styled/FluidGrid';
 import { RightAligned } from '../../styled/RightAligned';
 
