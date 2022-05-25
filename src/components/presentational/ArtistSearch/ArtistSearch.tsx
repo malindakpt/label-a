@@ -29,11 +29,10 @@ const ArtistSearch: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
     <div>
       <TextField
         id="filled-basic"
-        label="Filled"
+        label="Enter Artist Name"
         variant="standard"
         onChange={handleChange}
       />
-      <h2 style={{ position: 'fixed' }}>Length: {data?.length}</h2>
       <Container>
         {data?.map((ele: any) => (
           <div key={ele.url}>

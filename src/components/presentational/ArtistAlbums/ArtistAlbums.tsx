@@ -11,13 +11,11 @@ const ArtistAlbums: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
   const { mbid } = useParams();
 
   useEffect(() => {
-    console.log('mbid', mbid);
     onQueryParamChange({ mbid });
   }, []);
 
   return (
     <div>
-      <h2 style={{ position: 'fixed' }}>Length: {data?.length}</h2>
       <div>
         {data?.map((ele: any) => (
           <div key={ele.url}>
