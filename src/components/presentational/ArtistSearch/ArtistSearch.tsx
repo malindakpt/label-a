@@ -4,11 +4,17 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { withScroll } from '../../hoc/withScroll';
 import { ArtistCard } from '../ArtistCard/ArtistCard';
+import styled from 'styled-components';
 
 export interface Props {
   data: any[];
   onQueryParamChange: (params: any) => void;
 }
+
+const Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`;
 const ArtistSearch: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
   const handleChange = (e: any) => {
     const name = e.target.value;
@@ -24,7 +30,7 @@ const ArtistSearch: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
         onChange={handleChange}
       />
       <h2 style={{ position: 'fixed' }}>Length: {data?.length}</h2>
-      <div>
+      <Container>
         {data?.map((ele: any) => (
           <div key={ele.url}>
             <Link to={`/artistAlbums/${ele.mbid}`}>
@@ -37,7 +43,7 @@ const ArtistSearch: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
             </Link>
           </div>
         ))}
-      </div>
+      </Container>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { FetchArgs } from '@reduxjs/toolkit/query/react';
 import useInfiniteScroll from 'react-infinite-scroll-hook';
 import { Props } from '../presentational/ArtistSearch/ArtistSearch';
 import { hasNextPage } from './withScrollUtil';
+import { Loader } from '../presentational/Loader/Loader';
 
 export interface DataApiArgs extends FetchArgs {
   params: any;
@@ -66,7 +67,7 @@ export const withScroll = (Wrapped: React.FC<Props>, useData: any) => {
         ></Wrapped>
         {(isFetching || hasNext) && (
           <div ref={sentryRef}>
-            <h1>Loading Screen</h1>
+            <Loader />
           </div>
         )}
       </>
