@@ -4,20 +4,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { withScroll } from '../../hoc/withScroll';
 import { ArtistCard } from '../ArtistCard/ArtistCard';
-import styled from 'styled-components';
+import { FluidGrid } from '../../styled/FluidGrid';
 
 export interface Props {
   data: any[];
   onQueryParamChange: (params: any) => void;
 }
-
-const Container = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  @media screen and (max-width: 600px) {
-    grid-template-columns: 1fr;
-  }
-`;
 
 const ArtistSearch: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
   const handleChange = (e: any) => {
@@ -33,7 +25,7 @@ const ArtistSearch: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
         variant="standard"
         onChange={handleChange}
       />
-      <Container>
+      <FluidGrid>
         {data?.map((ele: any) => (
           <div key={ele.url}>
             <Link to={`/artistAlbums/${ele.mbid}`}>
@@ -46,7 +38,7 @@ const ArtistSearch: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
             </Link>
           </div>
         ))}
-      </Container>
+      </FluidGrid>
     </div>
   );
 };

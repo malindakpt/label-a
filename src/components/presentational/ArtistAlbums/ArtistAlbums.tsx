@@ -1,7 +1,9 @@
 import { useTopAlbumsQuery } from '../../../services/apiSlice';
 import React, { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { withScroll } from '../../hoc/withScroll';
+import { ArtistCard } from '../ArtistCard/ArtistCard';
+import { FluidGrid } from '../../styled/FluidGrid';
 
 export interface Props {
   data: any[];
@@ -15,15 +17,18 @@ const ArtistAlbums: React.FC<Props> = ({ data, onQueryParamChange }: Props) => {
   }, []);
 
   return (
-    <div>
-      <div>
-        {data?.map((ele: any) => (
-          <div key={ele.url}>
-            <Link to={`/artist/${ele.mbid}`}>{ele.name}</Link>
-          </div>
-        ))}
-      </div>
-    </div>
+    <FluidGrid>
+      {data?.map((ele: any) => (
+        <div key={ele.url}>
+          <ArtistCard
+            title={ele.name}
+            image={ele.image[2]['#text']}
+            url={ele.url}
+            description={`listeners: ${ele.listeners}`}
+          />
+        </div>
+      ))}
+    </FluidGrid>
   );
 };
 
